@@ -28,20 +28,20 @@
       }
     },
     methods:{
-      handleLogin(){
-        this.$http.post('login', this.formdata)
-          .then(res=>{
+      async handleLogin(){
+        const res = await this.$http.post('login', this.formdata)
             // console.log(res)
-            // 登录成功跳转home，并提示，不成功，消息提示
+            // 登录成功保存token，跳转home，并提示，不成功，消息提示
             const {data, meta:{msg, status}} = res.data
             if (status === 200) {
+              localStorage.setItem('token',data.token)
               this.$router.push({name:'home'})
               this.$message.success(msg)
             }
             else {
               this.$message.warning(msg)
             }
-          })
+
       }
     }
 
